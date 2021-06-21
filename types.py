@@ -9,6 +9,8 @@ class Base:
         return f"{self.type}({self.value})"
 
     def __eq__(self, other):
+        if other == None:
+            return False
         return self.type == other.type and self.value == other.value
 
 class Number(Base):
@@ -23,21 +25,9 @@ class Eof(Base):
     def __init__(self, value=None):
         super().__init__("Eof", value)
 
-class Plus(Base):
-    def __init__(self, value=None):
-        super().__init__("Plus", value)
-
-class Dash(Base):
-    def __init__(self, value=None):
-        super().__init__("Dash", value)
-
-class Asterisk(Base):
-    def __init__(self, value=None):
-        super().__init__("Asterisk", value)
-
-class Slash(Base):
-    def __init__(self, value=None):
-        super().__init__("Slash", value)
+class Symbol(Base):
+    def __init__(self, value):
+        super().__init__("Symbol", value)
 
 class OpenParen(Base):
     def __init__(self, value=None):

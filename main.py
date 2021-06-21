@@ -1,4 +1,5 @@
 from types import *
+from parser import *
 
 class Tokenizer:
     def __init__(self, buf):
@@ -21,16 +22,16 @@ class Tokenizer:
         if self.index < len(self.buf):
             if self.token() == '+':
                 self.move(1)
-                return Plus()
+                return Symbol('+')
             elif self.token() == '-':
                 self.move(1)
-                return Dash()
+                return Symbol('-')
             elif self.token() == '*':
                 self.move(1)
-                return Asterisk()
+                return Symbol('*')
             elif self.token() == '/':
                 self.move(1)
-                return Slash()
+                return Symbol('/')
             elif self.token() == '(':
                 self.move(1)
                 return OpenParen()
@@ -52,11 +53,17 @@ class Tokenizer:
         else:
             return Eof()
 
-tokenizer = Tokenizer("1024+2")
+tokenizer = Tokenizer("1 + 2 - 3")
+tokens = []
 
 while True:
     token = tokenizer.next()
     if token != Eof():
-        print(token)
+        tokens.append(token)
     else:
         break
+
+parser = Parser(tokens)
+
+expression = parser.parse_expression()
+print(expression)
