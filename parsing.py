@@ -1,6 +1,11 @@
+from types import *
+
 class PrimaryExpression:
     def __init__(self, value):
         self.value = value
+
+    def execute(self):
+        return int(self.value)
 
     def __repr__(self):
         return f"Primary({self.value})"
@@ -10,6 +15,32 @@ class BinaryExpression:
         self.left  = left
         self.op    = op
         self.right = right
+
+    def execute(self):
+        left = None
+        right = None
+
+        if isinstance(self.left, BinaryExpression):
+            left = BinaryExpression.execute(self.left)
+        else:
+            left = self.left.value
+
+        if isinstance(self.right, BinaryExpression):
+            right = BinaryExpression.execute(self.right)
+        else:
+            right = self.right.value
+
+        assert left != None
+        assert right != None
+
+        if self.op == Symbol('+'):
+            return left + right
+        elif self.op == Symbol('-'):
+            return left - right
+        elif self.op == Symbol('*'):
+            return left * right
+        elif  self.op == Symbol('/'):
+            return left // right
 
     def __repr__(self):
         return f"Binary({self.left}, {self.op}, {self.right})"
@@ -30,9 +61,10 @@ class Parser:
     def move(self, value):
         self.index += value
 
-    def next(self):
+    def next(self, type):
         if not self.end():
             token = self.token()
+            assert isinstance(token, type), f"Expected {type} found {token}"
             self.move(1)
             return token
         else:
@@ -46,10 +78,10 @@ class Parser:
             return None
 
     def parse_binary_expression(self):
-        expr = BinaryExpression(self.next(), self.next(), self.next())
+        expr = BinaryExpression(self.next(Number), self.next(Symbol), self.next(Number))
         while self.peek() != None:
-            op = self.next()
-            right = self.next()
+            op = self.next(Symbol)
+            right = self.next(Number)
             expr = BinaryExpression(expr, op, right)
         return expr
 

@@ -53,7 +53,7 @@ class Tokenizer:
         else:
             return Eof()
 
-tokenizer = Tokenizer("1 + 2 + 3 + 4 + 5")
+tokenizer = Tokenizer("9 * 2 / 2")
 tokens = []
 
 while True:
@@ -66,4 +66,4 @@ while True:
 parser = Parser(tokens)
 
 expression = parser.parse_expression()
-print(expression)
+print(expression.execute())
