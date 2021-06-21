@@ -1,5 +1,5 @@
 from types import *
-from parser import *
+from parsing import *
 
 class Tokenizer:
     def __init__(self, buf):
@@ -53,7 +53,7 @@ class Tokenizer:
         else:
             return Eof()
 
-tokenizer = Tokenizer("1 + 2 - 3")
+tokenizer = Tokenizer("1 + 2 + 3 + 4 + 5")
 tokens = []
 
 while True:

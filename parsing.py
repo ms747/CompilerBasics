@@ -13,6 +13,7 @@ class BinaryExpression:
 
     def __repr__(self):
         return f"Binary({self.left}, {self.op}, {self.right})"
+
 class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
@@ -45,18 +46,12 @@ class Parser:
             return None
 
     def parse_binary_expression(self):
-        expr = BinaryExpression()
+        expr = BinaryExpression(self.next(), self.next(), self.next())
         while self.peek() != None:
-            expr.left = self.next()
-            expr.op = self.next()
-            expr.right = self.parse_binary_expression()
+            op = self.next()
+            right = self.next()
+            expr = BinaryExpression(expr, op, right)
         return expr
-
-        # expr = BinaryExpression(self.next(), self.next())
-        # while self.peek() != None:
-        #     expr = BinaryExpression(expr, self.next())
-        # expr.right = self.next()
-        # return expr
 
     def parse_expression(self):
         return self.parse_binary_expression()
