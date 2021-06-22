@@ -78,7 +78,8 @@ class Parser:
             return None
 
     def parse_binary_expression(self):
-        expr = BinaryExpression(self.next(Number), self.next(Symbol), self.next(Number))
+        expr = BinaryExpression(self.next(Number), self.next(Symbol),
+                self.next(Number))
         while self.peek() != None:
             op = self.next(Symbol)
             right = self.next(Number)
